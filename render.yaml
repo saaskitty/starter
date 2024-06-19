@@ -1,0 +1,31 @@
+previewsEnabled: true
+previewsExpireAfterDays: 1
+
+services:
+  - type: redis
+    name: app-redis-primary
+    region: ohio
+    maxmemoryPolicy: noeviction
+    ipAllowList: []
+
+  - type: web
+    name: app-server
+    runtime: docker
+    region: ohio
+    scaling:
+      minInstances: 1
+      maxInstances: 1
+      targetMemoryPercent: 60
+      targetCPUPercent: 60
+
+  - type: worker
+    name: app-worker
+    runtime: docker
+    region: ohio
+    dockerCommand: /app/node_modules/saaskitty/build/production/main.js start --service=worker
+    numInstances: 1
+
+databases:
+  - name: primary
+    databaseName: primary
+    ipAllowList: []
