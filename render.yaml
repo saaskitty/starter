@@ -19,6 +19,6 @@ services:
     numInstances: 1
 
 databases:
-  - name: primary
+  - name: app-pg-primary
     databaseName: primary
     ipAllowList: []
