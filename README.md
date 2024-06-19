@@ -24,7 +24,7 @@ bun configure
 ```
 
 > [!IMPORTANT]
-> You will need to manually fill in the secret values in .env and .env.docker.
+> You will need to manually fill in the secret values in `.env` and `.env.docker`.
 
 3. Setup Postgres/Redis/S3 locally.
 
