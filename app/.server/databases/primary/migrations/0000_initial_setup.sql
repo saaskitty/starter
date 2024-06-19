@@ -1,8 +1,8 @@
 CREATE EXTENSION IF NOT EXISTS citext;
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
-/**
- * Copyright 2023 Viascom Ltd liab. Co
+/*
+ * Copyright 2024 Viascom Ltd liab. Co
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -21,10 +21,23 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto;
  * specific language governing permissions and limitations
  * under the License.
  */
-CREATE OR REPLACE FUNCTION nanoid(size int DEFAULT 21, alphabet text DEFAULT '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', additionalBytesFactor float DEFAULT 1.6)
-	RETURNS text
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
+-- The `nanoid()` function generates a compact, URL-friendly unique identifier.
+-- Based on the given size and alphabet, it creates a randomized string that's ideal for
+-- use-cases requiring small, unpredictable IDs (e.g., URL shorteners, generated file names, etc.).
+-- While it comes with a default configuration, the function is designed to be flexible,
+-- allowing for customization to meet specific needs.
+
+DROP FUNCTION IF EXISTS nanoid (int, text, float);
+
+CREATE OR REPLACE FUNCTION nanoid (size int DEFAULT 21, -- The number of symbols in the NanoId String. Must be greater than 0.
+alphabet text DEFAULT '_-0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', -- The symbols used in the NanoId String. Must contain between 1 and 255 symbols.
+additionalBytesFactor float DEFAULT 1.6 -- The additional bytes factor used for calculating the step size. Must be equal or greater then 1.
+)
+	RETURNS text -- A randomly generated NanoId String
 	LANGUAGE plpgsql
-	VOLATILE LEAKPROOF PARALLEL SAFE
+	VOLATILE PARALLEL SAFE
 	AS $$
 DECLARE
 	alphabetArray text [];
@@ -47,6 +60,7 @@ BEGIN
 	step := cast(ceil(additionalBytesFactor * mask * size / alphabetLength) AS int);
 	IF step > 1024 THEN
 		step := 1024;
+		-- The step size % can''t be bigger then 1024!
 	END IF;
 	RETURN nanoid_optimized (size,
 		alphabet,
@@ -55,10 +69,20 @@ BEGIN
 END
 $$;
 
-CREATE OR REPLACE FUNCTION nanoid_optimized(size int, alphabet text, mask int, step int)
-	RETURNS text
+-- Generates an optimized random string of a specified size using the given alphabet, mask, and step.
+-- This optimized version is designed for higher performance and lower memory overhead.
+-- No checks are performed! Use it only if you really know what you are doing.
+
+DROP FUNCTION IF EXISTS nanoid_optimized (int, text, int, int);
+
+CREATE OR REPLACE FUNCTION nanoid_optimized (size int, -- The desired length of the generated string.
+alphabet text, -- The set of characters to choose from for generating the string.
+mask int, -- The mask used for mapping random bytes to alphabet indices. Should be `(2^n) - 1` where `n` is a power of 2 less than or equal to the alphabet size.
+step int -- The number of random bytes to generate in each iteration. A larger value may speed up the function but increase memory usage.
+)
+	RETURNS text -- A randomly generated NanoId String
 	LANGUAGE plpgsql
-	VOLATILE LEAKPROOF PARALLEL SAFE
+	VOLATILE PARALLEL SAFE
 	AS $$
 DECLARE
 	idBuilder text := '';
@@ -85,6 +109,7 @@ BEGIN
 END
 $$;
 
+
 /**
  * Copyright 2023 Kyle Hubert <kjmph@users.noreply.github.com> (https://github.com/kjmph)
  *
@@ -103,7 +128,7 @@ $$;
  * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-CREATE OR REPLACE FUNCTION uuidv7()
+CREATE OR REPLACE FUNCTION uuidv7 ()
 	RETURNS uuid
 	AS $$
 BEGIN
