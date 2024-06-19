@@ -3,6 +3,7 @@
 		"biomejs.biome",
 		"eamodio.gitlens",
 		"editorconfig.editorconfig",
+		"ms-azuretools.vscode-docker",
 		"redhat.vscode-yaml"
 	]
 }
