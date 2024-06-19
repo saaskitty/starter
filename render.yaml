@@ -9,11 +9,7 @@ services:
     name: app-server
     runtime: docker
     region: ohio
-    scaling:
-      minInstances: 1
-      maxInstances: 2
-      targetMemoryPercent: 60
-      targetCPUPercent: 60
+    numInstances: 1
 
   - type: worker
     name: app-worker
