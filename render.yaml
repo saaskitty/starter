@@ -14,7 +14,7 @@ services:
     region: ohio
     scaling:
       minInstances: 1
-      maxInstances: 1
+      maxInstances: 2
       targetMemoryPercent: 60
       targetCPUPercent: 60
 
