@@ -1,0 +1,16 @@
+# dotenv environment variable files
+.env
+.env.docker
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# etc.
+build/*
+node_modules
+tmp
+tsconfig.tsbuildinfo
+vite.config.ts.*
+.DS_Store
+*.pem

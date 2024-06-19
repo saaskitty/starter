@@ -1,0 +1,23 @@
+# dotenv environment variable files
+.env
+.env.docker
+.env.development.local
+.env.test.local
+.env.production.local
+.env.local
+
+# etc.
+.github
+.vscode
+build
+node_modules
+.editorconfig
+.npmrc
+biome.json
+compose.yml
+Dockerfile
+README.md
+tsconfig.tsbuildinfo
+vite.config.ts.*
+.DS_Store
+*.pem

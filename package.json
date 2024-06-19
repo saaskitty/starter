@@ -1,0 +1,23 @@
+{
+	"name": "starter",
+	"version": "0.1.0",
+	"description": "The starter template for quickly launching your full-stack web application.",
+	"imports": {
+		"#app/*": ["./app/*"]
+	},
+	"scripts": {
+		"app": "app-dev",
+		"build": "remix vite:build",
+		"check": "biome check --diagnostic-level=warn --write --unsafe . && tsc -b",
+		"check:ci": "biome check --diagnostic-level=warn . && tsc -b",
+		"configure": "cp .env.example .env && cp .env.docker.example .env.docker",
+		"dev": "node --env-file=.env --import=tsx --watch-path=app/.server --watch-path=.env ./node_modules/.bin/app-dev start",
+		"test:client": "vitest",
+		"test:server": "SERVER_TEST=1 vitest"
+	},
+	"sideEffects": false,
+	"type": "module",
+	"dependencies": {
+		"saaskitty": "^0.1.0-nightly-20240618T130438"
+	}
+}

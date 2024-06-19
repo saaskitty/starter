@@ -1,0 +1,69 @@
+services:
+  app-pg-primary:
+    image: postgres:16.3
+    environment:
+      - POSTGRES_DB=primary
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      interval: 3s
+      retries: 5
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      timeout: 5s
+    ports:
+      - 5432:5432
+    profiles:
+      - infra
+    restart: on-failure
+
+  app-redis-primary:
+    image: redis:7.2.4
+    healthcheck:
+      interval: 3s
+      retries: 5
+      test: ["CMD-SHELL", "redis-cli ping"]
+      timeout: 5s
+    ports:
+      - 6379:6379
+    profiles:
+      - infra
+    restart: on-failure
+
+  app-storage:
+    image: minio/minio:RELEASE.2024-03-07T00-43-48Z
+    command: minio server /data --console-address "0.0.0.0:9001"
+    environment:
+      - MINIO_ROOT_USER=minio
+      - MINIO_ROOT_PASSWORD=whatever
+    healthcheck:
+      interval: 3s
+      test: timeout 5s bash -c ':> /dev/tcp/0.0.0.0/9000' || exit 1
+      timeout: 5s
+      retries: 5
+    ports:
+      - 9000:9000
+      - 9001:9001
+    profiles:
+      - infra
+    restart: on-failure
+
+  app-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env.docker
+    ports:
+      - 8000:8000
+    profiles:
+      - app
+    restart: on-failure
+
+  app-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: /app/node_modules/saaskitty/build/production/main.js start --service=worker
+    env_file: .env.docker
+    profiles:
+      - app
+    restart: on-failure
