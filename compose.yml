@@ -16,8 +16,9 @@ services:
       - infra
     restart: on-failure
 
-  app-redis-primary:
+  app-cache-primary:
     image: redis:7.2.4
+    command: redis-server --maxmemory-policy allkeys-lru
     healthcheck:
       interval: 3s
       retries: 5
@@ -25,6 +26,19 @@ services:
       timeout: 5s
     ports:
       - 6379:6379
+    profiles:
+      - infra
+    restart: on-failure
+
+  app-queue:
+    image: redis:7.2.4
+    healthcheck:
+      interval: 3s
+      retries: 5
+      test: ["CMD-SHELL", "redis-cli ping"]
+      timeout: 5s
+    ports:
+      - 6380:6379
     profiles:
       - infra
     restart: on-failure
