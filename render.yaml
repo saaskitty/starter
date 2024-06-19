@@ -6,6 +6,27 @@ services:
     ipAllowList: []
 
   - type: web
+    name: app-storage
+    healthCheckPath: /minio/health/live
+    runtime: image
+    image:
+      url: docker.io/minio/minio:latest
+    dockerCommand: minio server /data --address $HOST:$PORT
+    autoDeploy: false
+    disk:
+      name: data
+      mountPath: /data
+    envVars:
+    - key: MINIO_ROOT_USER
+      generateValue: true
+    - key: MINIO_ROOT_PASSWORD
+      generateValue: true
+    - key: HOST
+      value: "0.0.0.0"
+    - key: PORT
+      value: 9000
+
+  - type: web
     name: app-server
     runtime: docker
     region: ohio
