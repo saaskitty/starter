@@ -1,6 +1,3 @@
-previewsEnabled: true
-previewsExpireAfterDays: 1
-
 services:
   - type: redis
     name: app-redis-primary
