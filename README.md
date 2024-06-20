@@ -16,23 +16,13 @@ The starter template for quickly launching your full-stack web application.
 bun install
 ```
 
-2. Configure your environment variables by creating and editing `.env` (for development)
-and `.env.docker` (for preview in Docker).
-
-```sh
-bun configure
-```
-
-> [!IMPORTANT]
-> You will need to manually fill in the secret values in `.env` and `.env.docker`.
-
-3. Setup Postgres/Redis/S3 locally.
+2. Setup Postgres/Redis/S3 locally.
 
 ```sh
 bun app up
 ```
 
-4. Start developing.
+3. Start developing.
 
 ```sh
 bun dev
