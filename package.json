@@ -10,7 +10,6 @@
     "build": "remix vite:build",
     "check": "biome check --diagnostic-level=warn --write --unsafe . && tsc -b",
     "check:ci": "biome check --diagnostic-level=warn . && tsc -b",
-    "configure": "cp .env.example .env && cp .env.docker.example .env.docker",
     "dev": "node --env-file=.env --import=tsx --watch-path=app/.server --watch-path=.env ./node_modules/.bin/app-dev start",
     "test:client": "vitest",
     "test:server": "SERVER_TEST=1 vitest"
