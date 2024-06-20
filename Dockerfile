@@ -52,4 +52,5 @@ COPY --from=builder /app/build /app/build
 COPY --from=builder /app/package.json /app/package.json
 COPY --from=builder /app/app/.server/databases/primary/migrations /app/app/.server/databases/primary/migrations
 
-CMD [ "/app/node_modules/saaskitty/build/production/main.js", "start", "--service=server"]
+ENTRYPOINT [ "node", "/app/node_modules/saaskitty/build/production/main.js" ]
+CMD [ "start", "--service=server"]
