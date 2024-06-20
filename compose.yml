@@ -99,7 +99,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: /app/node_modules/saaskitty/build/production/main.js start --service=worker
+    command: start --service=worker
     env_file: .env.docker
     profiles:
       - app
