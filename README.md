@@ -16,7 +16,7 @@ The starter template for quickly launching your full-stack web application.
 bun install
 ```
 
-2. Setup Postgres/Redis/S3 locally.
+1. Setup Postgres/Redis/S3/SMTP locally.
 
 ```sh
 bun app up
