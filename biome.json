@@ -8,16 +8,7 @@
 		"enabled": true
 	},
 	"linter": {
-		"enabled": true,
-		"rules": {
-			"suspicious": {
-				"noArrayIndexKey": "off",
-				"noExplicitAny": "off"
-			},
-			"style": {
-				"noNonNullAssertion": "off"
-			}
-		}
+		"enabled": true
 	},
 	"organizeImports": {
 		"enabled": true
