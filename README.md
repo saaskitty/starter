@@ -2,6 +2,10 @@
 
 The starter template for quickly launching your full-stack web application.
 
+## Architecture
+
+![alt text](.github/images/architecture.png)
+
 ## Prerequisites
 
 - Install [Docker](https://www.docker.com/products/docker-desktop/)
@@ -16,13 +20,13 @@ The starter template for quickly launching your full-stack web application.
 bun install
 ```
 
-1. Setup Postgres/Redis/S3/SMTP locally.
+2. Setup Postgres/Redis/S3/SMTP locally.
 
 ```sh
 bun app up
 ```
 
-3. Start developing.
+3. Start the application in development mode.
 
 ```sh
 bun dev
