@@ -42,9 +42,13 @@ const configSchema = {
 	/**
 	 * The application description.
 	 *
-	 * @default ""
+	 * @default "The starter template for quickly launching your full-stack web application."
 	 */
-	APP_DESCRIPTION: z.string().default(""),
+	APP_DESCRIPTION: z
+		.string()
+		.default(
+			"The starter template for quickly launching your full-stack web application.",
+		),
 
 	/**
 	 * The application environment.
@@ -56,9 +60,9 @@ const configSchema = {
 	/**
 	 * The application name.
 	 *
-	 * @default "zaphr"
+	 * @default "starter"
 	 */
-	APP_NAME: z.string().default("zaphr"),
+	APP_NAME: z.string().default("starter"),
 
 	/**
 	 * The application version.
