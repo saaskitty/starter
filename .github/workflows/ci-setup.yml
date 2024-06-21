@@ -1,0 +1,117 @@
+name: CI - Setup
+
+on:
+  workflow_call:
+    inputs:
+      COMMAND:
+        required: true
+        type: string
+
+jobs:
+  run:
+    runs-on: ubuntu-22.04
+
+    timeout-minutes: 10
+
+    services:
+      postgres:
+        image: postgres:16.3
+        env:
+          POSTGRES_DB: primary
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      redis:
+        image: redis:7.2.4
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+
+      smtp:
+        image: axllent/mailpit:v1.18.6
+        env:
+          MP_SMTP_AUTH_ACCEPT_ANY: 1
+          MP_SMTP_AUTH_ALLOW_INSECURE: 1
+        ports:
+          - 8025:8025
+          - 1025:1025
+
+      storage:
+        image: minio/minio:edge-cicd
+        options: >-
+          --health-cmd "curl -s http://localhost:9000/minio/health/live"
+        env:
+          MINIO_ROOT_USER: minio
+          MINIO_ROOT_PASSWORD: whatever
+        ports:
+          - 9000:9000
+          - 9001:9001
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Paths Filter
+        uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            app:
+              - .github/workflows/ci.yml
+              - .github/workflows/ci-setup.yml
+              - .github/workflows/docker-build.yml
+              - app/**
+              - public/**
+              - scripts/**
+              - biome.json
+              - .dockerignore
+              - Dockerfile
+              - bun.lockb
+              - package.json
+              - postcss.config.js
+              - shell.nix
+              - tailwind.config.ts
+              - tsconfig.json
+              - vite.config.ts
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
+        if: steps.filter.outputs.app == 'true'
+        with:
+          bun-version: 1.1.15
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v4
+        if: steps.filter.outputs.app == 'true'
+        with:
+          node-version: 22.3.0
+
+      - name: Install Dependencies
+        if: steps.filter.outputs.app == 'true'
+        run: |
+          bun i --frozen-lockfile
+
+      - name: Run Command
+        if: steps.filter.outputs.app == 'true'
+        run: |
+          ${{ inputs.COMMAND }}
+        env:
+          AWS_S3_ENDPOINT: http://localhost:${{ job.services.storage.ports[9000] }}
+          PRIMARY_CACHE_URL: redis://localhost:${{ job.services.redis.ports[6379] }}/0
+          PRIMARY_DB_URL: postgresql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/primary
+          PRIMARY_SMTP_URL: smtp://localhost:${{ job.services.smtp.ports[1025] }}
+          PUBSUB_URL: redis://localhost:${{ job.services.redis.ports[6379] }}/1
+          QUEUE_URL: redis://localhost:${{ job.services.redis.ports[6379] }}/2

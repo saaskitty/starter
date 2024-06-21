@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  code-check:
+    uses: ./.github/workflows/ci-setup.yml
+    with:
+      COMMAND: bun check:ci
+
+  docker-build:
+    uses: ./.github/workflows/docker-build.yml
+
+  test-client-1:
+    uses: ./.github/workflows/ci-setup.yml
+    with:
+      COMMAND: bun test:client --shard=1/2
+
+  test-client-2:
+    uses: ./.github/workflows/ci-setup.yml
+    with:
+      COMMAND: bun test:client --shard=2/2
+
+  test-server-1:
+    uses: ./.github/workflows/ci-setup.yml
+    with:
+      COMMAND: |
+        bun app db:migrate
+        bun test:server --shard=1/2
+
+  test-server-2:
+    uses: ./.github/workflows/ci-setup.yml
+    with:
+      COMMAND: |
+        bun app db:migrate
+        bun test:server --shard=2/2
