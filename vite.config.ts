@@ -99,9 +99,9 @@ export default defineConfig(async () => {
 						include: ["**/*.{test,spec}.?(c|m)[jt]s?(x)"],
 					}),
 			globals: true,
-			globalSetup: [],
+			globalSetup: ["tests/global-setup.ts"],
 			passWithNoTests: true,
-			setupFiles: [],
+			setupFiles: ["tests/setup.ts"],
 		},
 	};
 });

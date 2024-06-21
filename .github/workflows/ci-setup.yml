@@ -76,6 +76,7 @@ jobs:
               - app/**
               - public/**
               - scripts/**
+              - tests/**
               - biome.json
               - .dockerignore
               - Dockerfile
