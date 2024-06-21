@@ -16,9 +16,8 @@ services:
       - infra
     restart: on-failure
 
-  primary-cache:
+  redis:
     image: redis:7.2.4
-    command: redis-server --maxmemory-policy allkeys-lru
     healthcheck:
       interval: 3s
       retries: 5
@@ -30,33 +29,7 @@ services:
       - infra
     restart: on-failure
 
-  pubsub:
-    image: redis:7.2.4
-    healthcheck:
-      interval: 3s
-      retries: 5
-      test: ["CMD-SHELL", "redis-cli ping"]
-      timeout: 5s
-    ports:
-      - 6380:6379
-    profiles:
-      - infra
-    restart: on-failure
-
-  queue:
-    image: redis:7.2.4
-    healthcheck:
-      interval: 3s
-      retries: 5
-      test: ["CMD-SHELL", "redis-cli ping"]
-      timeout: 5s
-    ports:
-      - 6381:6379
-    profiles:
-      - infra
-    restart: on-failure
-
-  smtp-server:
+  smtp:
     image: axllent/mailpit:v1.18.6
     environment:
       MP_SMTP_AUTH_ACCEPT_ANY: 1
