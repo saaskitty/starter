@@ -49,7 +49,6 @@ export default defineConfig(async () => {
 							".*",
 							"**/*.css",
 							"**/*.spec.{js,jsx,ts,tsx}",
-							"**/*.test.{js,jsx,ts,tsx}",
 							"**/__*.*",
 							"**/*.server.*",
 							"**/*.client.*",
