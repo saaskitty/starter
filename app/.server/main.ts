@@ -211,7 +211,7 @@ export const bootstrapOpts: BootstrapOpts<typeof configSchema> = {
 	 *
 	 * @param {App} app The app instance.
 	 */
-	async beforeAppDecoration(app: App) {
+	async preDecorate(app: App) {
 		return {
 			caches: getCaches(app),
 			commands: getCommands(app),
@@ -238,5 +238,5 @@ export const bootstrapOpts: BootstrapOpts<typeof configSchema> = {
 	 *
 	 * @param {App} app The app instance.
 	 */
-	async afterAppDecoration(app: App) {},
+	async postDecorate(app: App) {},
 };
