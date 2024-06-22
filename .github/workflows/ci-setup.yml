@@ -20,21 +20,13 @@ jobs:
           POSTGRES_DB: primary
           POSTGRES_PASSWORD: postgres
           POSTGRES_USER: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+        options: --health-cmd pg_isready
         ports:
           - 5432:5432
 
       redis:
         image: redis:7.2.4
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+        options: --health-cmd "redis-cli ping"
         ports:
           - 6379:6379
 
@@ -43,17 +35,17 @@ jobs:
         env:
           MP_SMTP_AUTH_ACCEPT_ANY: 1
           MP_SMTP_AUTH_ALLOW_INSECURE: 1
+        options: --health-cmd "nc -z 0.0.0.0 1025"
         ports:
           - 8025:8025
           - 1025:1025
 
       storage:
         image: minio/minio:edge-cicd
-        options: >-
-          --health-cmd "curl -s http://localhost:9000/minio/health/live"
         env:
           MINIO_ROOT_USER: minio
           MINIO_ROOT_PASSWORD: whatever
+        options: --health-cmd "curl -s http://localhost:9000/minio/health/live"
         ports:
           - 9000:9000
           - 9001:9001

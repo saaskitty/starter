@@ -34,6 +34,11 @@ services:
     environment:
       MP_SMTP_AUTH_ACCEPT_ANY: 1
       MP_SMTP_AUTH_ALLOW_INSECURE: 1
+    healthcheck:
+      interval: 3s
+      retries: 5
+      test: ["CMD-SHELL", "nc -z 0.0.0.0 1025"]
+      timeout: 5s
     ports:
       - 8025:8025
       - 1025:1025
