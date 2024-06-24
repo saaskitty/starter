@@ -1,4 +1,4 @@
-import { getI18nInitOptions, z } from "saaskitty/client";
+import { getI18nInitOptions } from "saaskitty/i18n";
 import {
 	type AppConfig,
 	type AppInstance,
@@ -9,6 +9,7 @@ import {
 	getAppCache,
 	getAppMailer,
 } from "saaskitty/server";
+import { z } from "saaskitty/validator";
 import { getCommands } from "#app/.server/commands/index.js";
 import { getCrons } from "#app/.server/crons/index.js";
 import { getDatabases } from "#app/.server/databases/index.js";

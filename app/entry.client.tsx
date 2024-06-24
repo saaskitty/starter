@@ -1,18 +1,15 @@
 import {
 	I18nextProvider,
-	RemixBrowser,
-	StrictMode,
 	getI18nInitOptions,
 	getInitialNamespaces,
-	hydrateRoot,
 	i18next,
 	i18nextBrowserLanguageDetector,
 	i18nextHttpBackend,
 	initReactI18next,
-	makeZodI18nMap,
-	startTransition,
-	z,
-} from "saaskitty/client";
+} from "saaskitty/i18n";
+import { StrictMode, hydrateRoot, startTransition } from "saaskitty/react";
+import { RemixBrowser } from "saaskitty/react-router";
+import { makeZodI18nMap, z } from "saaskitty/validator";
 
 const i18n = i18next
 	.use(initReactI18next)

@@ -1,9 +1,6 @@
-import type {
-	AppI18nTypeOptions,
-	ExternalScriptsHandle,
-	Namespace,
-} from "saaskitty/client";
+import type { AppI18nTypeOptions, Namespace } from "saaskitty/i18n";
 import type { AppRequestContext } from "saaskitty/server";
+import type { ExternalScriptsHandle } from "saaskitty/utils";
 import type { getRequestContext } from "#app/.server/main.js";
 import type common from "#public/locales/en/common.json";
 
