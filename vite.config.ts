@@ -75,23 +75,7 @@ export default defineConfig(async () => {
 			port,
 		},
 		test: {
-			...(process.env.SERVER_TEST
-				? {
-						exclude: ["node_modules"],
-						include: [
-							"**/*.e2e.{test,spec}.?(c|m)[jt]s?(x)",
-							"app/.server/**/*.{test,spec}.?(c|m)[jt]s?(x)",
-						],
-					}
-				: {
-						environment: "jsdom",
-						exclude: [
-							"node_modules",
-							"**/*.e2e.{test,spec}.?(c|m)[jt]s?(x)",
-							"app/.server/**/*.{test,spec}.?(c|m)[jt]s?(x)",
-						],
-						include: ["**/*.{test,spec}.?(c|m)[jt]s?(x)"],
-					}),
+			include: ["**/*.spec.?(c|m)[jt]s?(x)"],
 			globals: true,
 			globalSetup: ["tests/global-setup.ts"],
 			passWithNoTests: true,

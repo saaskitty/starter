@@ -11,12 +11,11 @@
     "check": "biome check --diagnostic-level=warn --write --unsafe . && tsc -b",
     "check:ci": "biome check --diagnostic-level=warn . && tsc -b",
     "dev": "node --env-file=.env --import=tsx --watch-path=app/.server --watch-path=.env ./node_modules/.bin/app-dev start",
-    "test:client": "vitest",
-    "test:server": "SERVER_TEST=1 vitest"
+    "test": "vitest"
   },
   "sideEffects": false,
   "type": "module",
   "dependencies": {
-    "saaskitty": "^0.1.0-nightly-20240622T093229"
+    "saaskitty": "^0.1.0-nightly-20240624T025948"
   }
 }
