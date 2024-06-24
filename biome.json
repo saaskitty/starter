@@ -8,7 +8,12 @@
 		"enabled": true
 	},
 	"linter": {
-		"enabled": true
+		"enabled": true,
+		"rules": {
+			"complexity": {
+				"noBannedTypes": "off"
+			}
+		}
 	},
 	"organizeImports": {
 		"enabled": true
