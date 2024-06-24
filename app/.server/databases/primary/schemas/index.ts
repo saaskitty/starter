@@ -1,1 +1,1 @@
-export * from "./schema-migrations";
+export { schemaMigrations } from "saaskitty/orm";
