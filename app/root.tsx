@@ -27,10 +27,10 @@ export async function loader({ context }: LoaderFunctionArgs) {
 		{
 			colorScheme: context.colorScheme,
 			config: {
-				appDesc: context.config.APP_DESCRIPTION,
-				appEnv: context.config.APP_ENV,
-				appName: context.config.APP_NAME,
-				appVersion: context.config.APP_VERSION,
+				appDesc: context.app.config.APP_DESCRIPTION,
+				appEnv: context.app.config.APP_ENV,
+				appName: context.app.config.APP_NAME,
+				appVersion: context.app.config.APP_VERSION,
 			},
 			language: context.i18n.language,
 			timezone: context.timezone,
