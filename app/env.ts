@@ -34,3 +34,10 @@ declare module "@remix-run/node" {
 		extends AppRequestContext,
 			Awaited<ReturnType<typeof getRequestContext>> {}
 }
+
+declare module "*.mdx" {
+	let MDXComponent: (props: any) => JSX.Element;
+	export const frontmatter: any;
+	// @ts-expect-error
+	export default MDXComponent;
+}

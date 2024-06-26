@@ -1,3 +1,11 @@
+// Ensure that Remix's json() can serialize BigInt without issue.
+//
+// Source: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt#use_within_json
+// @ts-expect-error
+BigInt.prototype.toJSON = function () {
+	return this.toString();
+};
+
 import { useTranslation } from "saaskitty/i18n";
 import { ClientHints, useEffect } from "saaskitty/react";
 import {
@@ -7,13 +15,21 @@ import {
 	Scripts,
 	ScrollRestoration,
 	json,
-	useChannel,
 	useNavigation,
 	useRouteLoaderData,
 } from "saaskitty/react-router";
-import type { LoaderFunctionArgs, SerializeFrom } from "saaskitty/server";
-import { ExternalScripts, useNonce } from "saaskitty/utils";
-import type { App } from "#app/.server/main.js";
+import type {
+	LinkDescriptor,
+	LoaderFunctionArgs,
+	SerializeFrom,
+} from "saaskitty/server";
+import {
+	AuthenticityTokenProvider,
+	ExternalScripts,
+	HoneypotProvider,
+	useNonce,
+} from "saaskitty/utils";
+import styles from "#app/root.css?url";
 
 export const handle = {
 	i18n: ["common", "saaskitty"],
@@ -22,8 +38,17 @@ export const handle = {
 	},
 } satisfies RouteHandle<SerializeFrom<typeof loader>>;
 
+export function links(): LinkDescriptor[] {
+	return [{ rel: "stylesheet", href: styles, as: "style" }];
+}
+
 export async function loader({ context }: LoaderFunctionArgs) {
 	const headers = new Headers();
+	const [csrfToken, csrfCookie] = await context.csrf.commitToken();
+
+	if (csrfCookie) {
+		headers.append("Set-Cookie", csrfCookie);
+	}
 
 	return json(
 		{
@@ -34,6 +59,8 @@ export async function loader({ context }: LoaderFunctionArgs) {
 				appName: context.app.config.APP_NAME,
 				appVersion: context.app.config.APP_VERSION,
 			},
+			csrfToken,
+			honeypotInputProps: context.honeypot.getInputProps(),
 			language: context.i18n.language,
 			timezone: context.timezone,
 		},
@@ -84,7 +111,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 			</head>
 
 			<body>
-				{children} {t("common:hello")} {t("saaskitty:errors.badRequest")}
+				<HoneypotProvider {...data?.honeypotInputProps}>
+					<AuthenticityTokenProvider token={data?.csrfToken}>
+						{children} {t("common:hello")}
+					</AuthenticityTokenProvider>
+				</HoneypotProvider>
 				<ScrollRestoration nonce={nonce.script} />
 				<Scripts nonce={nonce.script} />
 				<ExternalScripts />

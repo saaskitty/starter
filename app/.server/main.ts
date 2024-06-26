@@ -75,6 +75,26 @@ const configSchema = {
 	APP_VERSION: z.string().default("0.1.0"),
 
 	/**
+	 * The secrets used to sign the cookies.
+	 */
+	COOKIE_SECRETS: z
+		.string()
+		.transform((val) => val.split(",").map((secret) => secret.trim()))
+		.refine(
+			(arr) => arr.length > 0 && arr.every((secret) => secret.length > 0),
+			{
+				message:
+					"COOKIE_SECRETS must be a comma-separated list of non-empty strings",
+			},
+		)
+		.transform((arr) => arr as string[]),
+
+	/**
+	 * The secret used to sign the CSRF token.
+	 */
+	CSRF_SECRET: z.string(),
+
+	/**
 	 * The NodeJS environment. Setting the environment to "production" generally ensures that:
 	 *
 	 * - logging is kept to a minimum, essential level
