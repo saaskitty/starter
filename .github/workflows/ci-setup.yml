@@ -103,6 +103,8 @@ jobs:
           ${{ inputs.COMMAND }}
         env:
           AWS_S3_ENDPOINT: http://localhost:${{ job.services.storage.ports[9000] }}
+          COOKIE_SECRETS: c944f04b13597769c1f1b5368f295d9b503234ae857bc9554611f58e58c92f39
+          CSRF_SECRET: 456d0d30a8355adfa3f3a04328fdbe98fe0dfc7f354f4d73ccda0046c170b548
           PRIMARY_CACHE_URL: redis://localhost:${{ job.services.redis.ports[6379] }}/0
           PRIMARY_DB_URL: postgresql://postgres:postgres@localhost:${{ job.services.postgres.ports[5432] }}/primary
           PRIMARY_SMTP_URL: smtp://localhost:${{ job.services.smtp.ports[1025] }}
