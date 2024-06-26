@@ -68,7 +68,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    env_file: .env.docker
+    env_file: .env.preview
     ports:
       - 8000:8000
     profiles:
@@ -80,7 +80,7 @@ services:
       context: .
       dockerfile: Dockerfile
     command: start --service=worker
-    env_file: .env.docker
+    env_file: .env.preview
     profiles:
       - app
     restart: on-failure

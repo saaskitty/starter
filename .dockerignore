@@ -1,6 +1,6 @@
 # dotenv environment variable files
 .env
-.env.docker
+.env.preview
 .env.development.local
 .env.test.local
 .env.production.local
