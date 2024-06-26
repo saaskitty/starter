@@ -16,6 +16,6 @@
   "sideEffects": false,
   "type": "module",
   "dependencies": {
-    "saaskitty": "^0.1.0-nightly-20240624T150610"
+    "saaskitty": "^0.1.0-nightly-20240626T045433"
   }
 }
