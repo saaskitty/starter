@@ -7,11 +7,13 @@ import {
 	Scripts,
 	ScrollRestoration,
 	json,
+	useChannel,
 	useNavigation,
 	useRouteLoaderData,
 } from "saaskitty/react-router";
 import type { LoaderFunctionArgs, SerializeFrom } from "saaskitty/server";
 import { ExternalScripts, useNonce } from "saaskitty/utils";
+import type { App } from "#app/.server/main.js";
 
 export const handle = {
 	i18n: ["common", "saaskitty"],
@@ -91,6 +93,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
 	);
 }
 
-export default function App() {
+export default function Component() {
 	return <Outlet />;
 }

@@ -10,6 +10,7 @@ import {
 	getAppMailer,
 } from "saaskitty/server";
 import { z } from "saaskitty/validator";
+import { getChannels } from "#app/.server/channels/index.js";
 import { getCommands } from "#app/.server/commands/index.js";
 import { getCrons } from "#app/.server/crons/index.js";
 import { getDatabases } from "#app/.server/databases/index.js";
@@ -23,6 +24,7 @@ export interface App
 	extends AppInstance<
 		typeof getCaches,
 		typeof configSchema,
+		typeof getChannels,
 		typeof getCrons,
 		typeof getDatabases,
 		typeof getEvents,
@@ -119,7 +121,12 @@ const configSchema = {
 	PRIMARY_BUCKET: z.string(),
 
 	/**
-	 * The queue connection URL.
+	 * The Redis pubsub connection URL.
+	 */
+	PUBSUB_URL: z.string(),
+
+	/**
+	 * The Redis queue connection URL.
 	 */
 	QUEUE_URL: z.string(),
 };
@@ -215,6 +222,7 @@ export const bootstrapOpts: BootstrapOpts<typeof configSchema> = {
 	async preDecorate(app: App) {
 		return {
 			caches: getCaches(app),
+			channels: getChannels(),
 			commands: getCommands(app),
 			crons: getCrons(app),
 			databases: getDatabases(app),
@@ -225,11 +233,19 @@ export const bootstrapOpts: BootstrapOpts<typeof configSchema> = {
 			}),
 			jobs: getJobs(app),
 			mailers: getMailers(app),
+			publisher: new Redis(app.config.PUBSUB_URL, {
+				lazyConnect: true,
+				maxRetriesPerRequest: null,
+			}),
 			queueStore: new Redis(app.config.QUEUE_URL, {
 				lazyConnect: true,
 				maxRetriesPerRequest: null,
 			}),
 			storages: getStorages(app),
+			subscriber: new Redis(app.config.PUBSUB_URL, {
+				lazyConnect: true,
+				maxRetriesPerRequest: null,
+			}),
 		};
 	},
 
