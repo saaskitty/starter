@@ -1,6 +1,6 @@
 # starter
 
-The starter template for quickly launching your full-stack web application.
+The starter template for quickly launching your full-stack web application using [saaskitty](https://saaskitty.com).
 
 ## Architecture
 
@@ -20,7 +20,7 @@ The starter template for quickly launching your full-stack web application.
 bun install
 ```
 
-2. Setup Postgres/Redis/S3/SMTP locally.
+2. Setup Postgres/Redis/S3/SMTP using [Docker Compose](https://docs.docker.com/compose/) locally.
 
 ```sh
 bun app up
@@ -31,3 +31,8 @@ bun app up
 ```sh
 bun dev
 ```
+
+> [!TIP]
+> [saaskitty](https://saaskitty.com) simplifies your development process with a suite of powerful commands, accessible via `bun app <COMMAND>`.
+>
+> ![alt text](.github/images/commands.png)
