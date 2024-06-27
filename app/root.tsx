@@ -118,7 +118,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 			<body>
 				<HoneypotProvider {...data?.honeypotInputProps}>
 					<AuthenticityTokenProvider token={data?.csrfToken}>
-						{children} {t("common:hello")}
+						{children}
 					</AuthenticityTokenProvider>
 				</HoneypotProvider>
 				<ScrollRestoration nonce={nonce.script} />
