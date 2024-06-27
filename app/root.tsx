@@ -27,6 +27,7 @@ import {
 	AuthenticityTokenProvider,
 	ExternalScripts,
 	HoneypotProvider,
+	cn,
 	useNonce,
 } from "saaskitty/utils";
 import styles from "#app/root.css?url";
@@ -94,7 +95,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
 	}, [data.language, i18n]);
 
 	return (
-		<html lang={data.language} dir={i18n.dir()}>
+		<html
+			className={cn("antialiased", { dark: data?.colorScheme === "dark" })}
+			lang={data.language}
+			dir={i18n.dir()}
+		>
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />
