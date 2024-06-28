@@ -74,7 +74,7 @@ export const theme = {
 export default {
 	content: [
 		"app/**/*.{js,jsx,mdx,ts,tsx}",
-		"node_modules/saaskitty/build/ui/*.{js,jsx,mdx,ts,tsx}",
+		"node_modules/saaskitty/build/{components,ui}/*.{js,jsx,mdx,ts,tsx}",
 	],
 	darkMode: "class",
 	theme,

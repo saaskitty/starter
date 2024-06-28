@@ -15,6 +15,7 @@ import { getCrons } from "#app/.server/crons/index.js";
 import { getDatabases } from "#app/.server/databases/index.js";
 import { getEvents } from "#app/.server/events/index.js";
 import { getJobs } from "#app/.server/jobs/index.js";
+import { getServices } from "#app/.server/services/index.js";
 
 /**
  * The application instance.
@@ -29,6 +30,7 @@ export interface App
 		typeof getEvents,
 		typeof getJobs,
 		typeof getMailers,
+		typeof getServices,
 		typeof getStorages
 	> {}
 
@@ -93,7 +95,7 @@ export async function getRequestContext({
 	app,
 	req,
 	res,
-}: GetRequestContextArgs) {
+}: GetRequestContextArgs<App>) {
 	return {};
 }
 
@@ -142,6 +144,7 @@ export const bootstrapOpts: BootstrapOpts<typeof configSchema> = {
 				lazyConnect: true,
 				maxRetriesPerRequest: null,
 			}),
+			services: getServices(app),
 			storages: getStorages(app),
 			subscriber: new Redis(app.config.PUBSUB_URL, {
 				lazyConnect: true,

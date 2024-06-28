@@ -1,7 +1,7 @@
 import type { AppI18nTypeOptions, Namespace } from "saaskitty/i18n";
 import type { AppRequestContext } from "saaskitty/server";
 import type { ExternalScriptsHandle } from "saaskitty/utils";
-import type { getRequestContext } from "#app/.server/main.js";
+import type { App, getRequestContext } from "#app/.server/main.js";
 import type common from "#public/locales/en/common.json";
 
 declare global {
@@ -31,7 +31,7 @@ declare module "i18next" {
  */
 declare module "@remix-run/node" {
 	interface AppLoadContext
-		extends AppRequestContext,
+		extends AppRequestContext<App>,
 			Awaited<ReturnType<typeof getRequestContext>> {}
 }
 
