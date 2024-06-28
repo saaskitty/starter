@@ -11,6 +11,7 @@ import { ClientHints, useEffect } from "saaskitty/react";
 import {
 	Links,
 	Meta,
+	type MetaDescriptor,
 	Outlet,
 	Scripts,
 	ScrollRestoration,
@@ -41,6 +42,10 @@ export const handle = {
 
 export function links(): LinkDescriptor[] {
 	return [{ rel: "stylesheet", href: styles, as: "style" }];
+}
+
+export function meta(): MetaDescriptor[] {
+	return [{ title: "Starter - saaskitty" }];
 }
 
 export async function loader({ context }: LoaderFunctionArgs) {
