@@ -6,6 +6,7 @@ BigInt.prototype.toJSON = function () {
 	return this.toString();
 };
 
+import { ErrorBox } from "saaskitty/components/error-box";
 import { useTranslation } from "saaskitty/i18n";
 import { ClientHints, useEffect } from "saaskitty/react";
 import {
@@ -15,6 +16,7 @@ import {
 	Outlet,
 	Scripts,
 	ScrollRestoration,
+	handleErrorBoundary,
 	json,
 	useNavigation,
 	useRouteLoaderData,
@@ -73,6 +75,24 @@ export async function loader({ context }: LoaderFunctionArgs) {
 		{
 			headers,
 		},
+	);
+}
+
+export function ErrorBoundary() {
+	const { t } = useTranslation(["saaskitty"]);
+	const { description, statusCode, title } = handleErrorBoundary();
+
+	return (
+		<ErrorBox
+			backTo={{
+				label: t("saaskitty:labels.backToHome"),
+				to: "/",
+			}}
+			className="px-8"
+			description={description}
+			statusCode={statusCode}
+			title={title}
+		/>
 	);
 }
 
