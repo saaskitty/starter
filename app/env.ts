@@ -1,5 +1,6 @@
 import type { AppI18nTypeOptions, Namespace } from "saaskitty/i18n";
 import type { AppRequestContext } from "saaskitty/server";
+import type { Context, mockApp } from "saaskitty/test";
 import type { ExternalScriptsHandle } from "saaskitty/utils";
 import type { App, getRequestContext } from "#app/.server/main.js";
 import type common from "#public/locales/en/common.json";
@@ -33,6 +34,12 @@ declare module "@remix-run/node" {
 	interface AppLoadContext
 		extends AppRequestContext<App>,
 			Awaited<ReturnType<typeof getRequestContext>> {}
+}
+
+declare module "vitest" {
+	export interface TestContext extends Context {
+		app: Awaited<ReturnType<typeof mockApp>>;
+	}
 }
 
 declare module "*.mdx" {
