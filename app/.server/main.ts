@@ -6,7 +6,6 @@ import {
 	type GetRequestContextArgs,
 	Redis,
 	getAppCache,
-	getAppMailer,
 } from "saaskitty/server";
 import { getChannels } from "#app/.server/channels/index.js";
 import { getCommands } from "#app/.server/commands/index.js";
@@ -15,6 +14,7 @@ import { getCrons } from "#app/.server/crons/index.js";
 import { getDatabases } from "#app/.server/databases/index.js";
 import { getEvents } from "#app/.server/events/index.js";
 import { getJobs } from "#app/.server/jobs/index.js";
+import { getMailers } from "#app/.server/mailers/index.js";
 import { getServices } from "#app/.server/services/index.js";
 
 /**
@@ -48,18 +48,6 @@ function getCaches(app: App) {
 				maxRetriesPerRequest: null,
 			}),
 		),
-	};
-}
-
-/**
- * Get the application mailers.
- *
- * @param {App} app The app instance.
- * @returns {Object} An object containing the mailers.
- */
-function getMailers(app: App) {
-	return {
-		primary: getAppMailer(app.config.PRIMARY_SMTP_URL),
 	};
 }
 

@@ -11,6 +11,11 @@ export type Config = AppConfig<typeof configSchema>;
  */
 export const configSchema = {
 	/**
+	 * The application base URL.
+	 */
+	APP_BASE_URL: z.string(),
+
+	/**
 	 * The application description.
 	 *
 	 * @default "The starter template for quickly launching your full-stack web application."

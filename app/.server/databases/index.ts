@@ -1,4 +1,4 @@
-import { getAppDatabase } from "saaskitty/server";
+import { getAppDatabase } from "saaskitty/orm";
 import * as primarySchema from "#app/.server/databases/primary/schemas/index.js";
 import type { App } from "#app/.server/main.js";
 
